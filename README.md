@@ -17,25 +17,35 @@ It runs the following Docker containers:
 ## Installation
 
 1. Clone this repository.
-    ```bash
+
+    ```
     git clone git@github.com:asimlqt/docker-pimcore.git
     ```
+
 2. Rename 'docker-compose.override.yml.dist' to 'docker-compose.override.yml'. If you're using OSX then you'll want to change the PHP UID and GID environment variables. You can find out what they are by running `id` in the terminal.
-    ```bash
+
+    ```
     cp docker-compose.override.yml.dist docker-compose.override.yml
     ```
+
 3. Open a terminal and cd in to this repository.
-    ```bash
+
+    ```
     cd docker-pimcore
     ```
+
 4. Install Pimcore using the composer method described on the Pimcore website. The only difference is that the project-name' will be 'web'. e.g.
-    ```bash
+
+    ```
     composer create-project pimcore/pimcore ./web
     ```
+
 5. Start docker using:
-    ```bash
+
+    ```
     docker-compose up -d
     ```
+
 6. Open a browser and navigate to 'http://localhost/'. The pimcore installation screen will open up. Enter the following details:
     - `MySQL Settings`
     - Adapter: Pdo_Mysql
