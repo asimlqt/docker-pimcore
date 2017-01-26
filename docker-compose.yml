@@ -5,10 +5,8 @@ services:
     db:
         image: mysql:5.7
         restart: always
-        ports:
-            - 3306:3306
         volumes:
-            - "./.data/db:/var/lib/mysql"
+            - "dbdata:/var/lib/mysql"
         command:
             - --character-set-server=utf8mb4
             - --collation-server=utf8mb4_general_ci
@@ -24,16 +22,13 @@ services:
         restart: always
         environment:
             NGINX_TEMPLATE: default-php-pimcore-composer
-        ports:
-            - 80:8080
-            - 443:4430
         volumes:
             - ./:/opt/www
         links:
             - php:php.docker
 
     php:
-        image: seeruk/docker-php-fpm:7.0-dev
+        image: seeruk/php-fpm:7.0-dev
         restart: always
         environment:
             TERM: xterm
@@ -47,3 +42,6 @@ services:
         image: memcached
         restart: always
 
+volumes:
+    dbdata:
+        driver: local
