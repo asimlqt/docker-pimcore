@@ -1,0 +1,49 @@
+version: "2"
+
+services:
+
+    db:
+        image: mysql:5.7
+        restart: always
+        ports:
+            - 3306:3306
+        volumes:
+            - "./.data/db:/var/lib/mysql"
+        command:
+            - --character-set-server=utf8
+            - --collation-server=utf8mb4
+            - --skip-character-set-client-handshake
+        environment:
+            MYSQL_ROOT_PASSWORD: pimcore
+            MYSQL_DATABASE: pimcore
+            MYSQL_USER: pimcore
+            MYSQL_PASSWORD: pimcore
+
+    web:
+        image: seeruk/docker-nginx:latest
+        restart: always
+        environment:
+            NGINX_TEMPLATE: default-php-pimcore-composer
+        ports:
+            - 80:8080
+            - 443:4430
+        volumes:
+            - ./:/opt/www
+        links:
+            - php:php.docker
+
+    php:
+        image: seeruk/docker-php-fpm:7.0-dev
+        restart: always
+        environment:
+            TERM: xterm
+        volumes:
+            - ./:/opt/www
+        links:
+            - db:db.docker
+            - cache:cache.docker
+
+    cache:
+        image: memcached
+        restart: always
+
